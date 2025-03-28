@@ -1,0 +1,522 @@
+
+*** Running vivado
+    with args -log top.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source top.tcl
+
+
+ECHO is off.
+ECHO is off.
+
+****** Vivado v2023.2 (64-bit)
+  **** SW Build 4029153 on Fri Oct 13 20:14:34 MDT 2023
+  **** IP Build 4028589 on Sat Oct 14 00:45:43 MDT 2023
+  **** SharedData Build 4025554 on Tue Oct 10 17:18:54 MDT 2023
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
+
+source top.tcl -notrace
+create_project: Time (s): cpu = 00:00:06 ; elapsed = 00:00:07 . Memory (MB): peak = 471.391 ; gain = 181.258
+Command: read_checkpoint -auto_incremental -incremental C:/Users/adamk/460m_lab5/460m_lab5.srcs/utils_1/imports/synth_1/top.dcp
+INFO: [Vivado 12-5825] Read reference checkpoint from C:/Users/adamk/460m_lab5/460m_lab5.srcs/utils_1/imports/synth_1/top.dcp for incremental synthesis
+INFO: [Vivado 12-7989] Please ensure there are no constraint changes
+Command: synth_design -top top -part xc7a35ticpg236-1L
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7a35ti'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7a35ti'
+INFO: [Device 21-403] Loading part xc7a35ticpg236-1L
+INFO: [Designutils 20-5440] No compile time benefit to using incremental synthesis; A full resynthesis will be run
+INFO: [Designutils 20-4379] Flow is switching to default flow due to incremental criteria not met. If you would like to alter this behaviour and have the flow terminate instead, please set the following parameter config_implementation {autoIncr.Synth.RejectBehavior Terminate}
+INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 2 processes.
+INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
+INFO: [Synth 8-7075] Helper process launched with PID 42440
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:05 ; elapsed = 00:00:06 . Memory (MB): peak = 1308.809 ; gain = 440.059
+---------------------------------------------------------------------------------
+INFO: [Synth 8-6157] synthesizing module 'top' [C:/Users/adamk/460m_lab5/460m_lab5.srcs/sources_1/new/top.v:4]
+INFO: [Synth 8-6157] synthesizing module 'debouncer' [C:/Users/adamk/460m_lab5/460m_lab5.srcs/sources_1/new/debouncer.v:3]
+INFO: [Synth 8-6155] done synthesizing module 'debouncer' (0#1) [C:/Users/adamk/460m_lab5/460m_lab5.srcs/sources_1/new/debouncer.v:3]
+INFO: [Synth 8-6157] synthesizing module 'clk_50_mhz' [C:/Users/adamk/460m_lab5/460m_lab5.srcs/sources_1/new/clk_50_mhz.v:3]
+INFO: [Synth 8-6155] done synthesizing module 'clk_50_mhz' (0#1) [C:/Users/adamk/460m_lab5/460m_lab5.srcs/sources_1/new/clk_50_mhz.v:3]
+INFO: [Synth 8-6157] synthesizing module 'tri_data_bus' [C:/Users/adamk/460m_lab5/460m_lab5.srcs/sources_1/new/tri_data_bus.v:2]
+INFO: [Synth 8-6155] done synthesizing module 'tri_data_bus' (0#1) [C:/Users/adamk/460m_lab5/460m_lab5.srcs/sources_1/new/tri_data_bus.v:2]
+INFO: [Synth 8-6157] synthesizing module 'controller' [C:/Users/adamk/460m_lab5/460m_lab5.srcs/sources_1/new/controller.v:2]
+INFO: [Synth 8-6157] synthesizing module 'sel_next_state' [C:/Users/adamk/460m_lab5/460m_lab5.srcs/sources_1/new/sel_next_state.v:3]
+INFO: [Synth 8-6155] done synthesizing module 'sel_next_state' (0#1) [C:/Users/adamk/460m_lab5/460m_lab5.srcs/sources_1/new/sel_next_state.v:3]
+INFO: [Synth 8-6157] synthesizing module 'fsm_clk_div' [C:/Users/adamk/460m_lab5/460m_lab5.srcs/sources_1/new/fsm_clk_div.v:3]
+INFO: [Synth 8-6155] done synthesizing module 'fsm_clk_div' (0#1) [C:/Users/adamk/460m_lab5/460m_lab5.srcs/sources_1/new/fsm_clk_div.v:3]
+INFO: [Synth 8-6157] synthesizing module 'mem_to_dvr_out' [C:/Users/adamk/460m_lab5/460m_lab5.srcs/sources_1/new/mem_to_dvr_out.v:2]
+INFO: [Synth 8-6157] synthesizing module 'hex_to_seven_seg' [C:/Users/adamk/460m_lab5/460m_lab5.srcs/sources_1/new/hex_to_seven_seg.v:3]
+INFO: [Synth 8-6155] done synthesizing module 'hex_to_seven_seg' (0#1) [C:/Users/adamk/460m_lab5/460m_lab5.srcs/sources_1/new/hex_to_seven_seg.v:3]
+INFO: [Synth 8-6155] done synthesizing module 'mem_to_dvr_out' (0#1) [C:/Users/adamk/460m_lab5/460m_lab5.srcs/sources_1/new/mem_to_dvr_out.v:2]
+INFO: [Synth 8-6157] synthesizing module 'time_mux_state_machine' [C:/Users/adamk/460m_lab5/460m_lab5.srcs/sources_1/new/time_mux_state_machine.v:3]
+INFO: [Synth 8-6155] done synthesizing module 'time_mux_state_machine' (0#1) [C:/Users/adamk/460m_lab5/460m_lab5.srcs/sources_1/new/time_mux_state_machine.v:3]
+INFO: [Synth 8-6155] done synthesizing module 'controller' (0#1) [C:/Users/adamk/460m_lab5/460m_lab5.srcs/sources_1/new/controller.v:2]
+INFO: [Synth 8-6157] synthesizing module 'memory' [C:/Users/adamk/460m_lab5/460m_lab5.srcs/sources_1/new/memory.v:3]
+INFO: [Synth 8-6155] done synthesizing module 'memory' (0#1) [C:/Users/adamk/460m_lab5/460m_lab5.srcs/sources_1/new/memory.v:3]
+INFO: [Synth 8-6155] done synthesizing module 'top' (0#1) [C:/Users/adamk/460m_lab5/460m_lab5.srcs/sources_1/new/top.v:4]
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:07 ; elapsed = 00:00:08 . Memory (MB): peak = 1420.559 ; gain = 551.809
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:07 ; elapsed = 00:00:08 . Memory (MB): peak = 1420.559 ; gain = 551.809
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:07 ; elapsed = 00:00:08 . Memory (MB): peak = 1420.559 ; gain = 551.809
+---------------------------------------------------------------------------------
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.005 . Memory (MB): peak = 1420.559 ; gain = 0.000
+INFO: [Project 1-570] Preparing netlist for logic optimization
+
+Processing XDC Constraints
+Initializing timing engine
+Parsing XDC File [C:/Users/adamk/460m_lab5/460m_lab5.srcs/constrs_1/new/lab_5_constr.xdc]
+Finished Parsing XDC File [C:/Users/adamk/460m_lab5/460m_lab5.srcs/constrs_1/new/lab_5_constr.xdc]
+INFO: [Project 1-236] Implementation specific constraints were found while reading constraint file [C:/Users/adamk/460m_lab5/460m_lab5.srcs/constrs_1/new/lab_5_constr.xdc]. These constraints will be ignored for synthesis but will be used in implementation. Impacted constraints are listed in the file [.Xil/top_propImpl.xdc].
+Resolution: To avoid this warning, move constraints listed in [.Xil/top_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
+Completed Processing XDC Constraints
+
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.001 . Memory (MB): peak = 1447.582 ; gain = 0.000
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+The system cannot find the path specified.
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.004 . Memory (MB): peak = 1447.582 ; gain = 0.000
+INFO: [Designutils 20-5440] No compile time benefit to using incremental synthesis; A full resynthesis will be run
+INFO: [Designutils 20-4379] Flow is switching to default flow due to incremental criteria not met. If you would like to alter this behaviour and have the flow terminate instead, please set the following parameter config_implementation {autoIncr.Synth.RejectBehavior Terminate}
+---------------------------------------------------------------------------------
+Finished Constraint Validation : Time (s): cpu = 00:00:15 ; elapsed = 00:00:16 . Memory (MB): peak = 1447.582 ; gain = 578.832
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Loading Part and Timing Information
+---------------------------------------------------------------------------------
+Loading part: xc7a35ticpg236-1L
+---------------------------------------------------------------------------------
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:15 ; elapsed = 00:00:16 . Memory (MB): peak = 1447.582 ; gain = 578.832
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying 'set_property' XDC Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:15 ; elapsed = 00:00:16 . Memory (MB): peak = 1447.582 ; gain = 578.832
+---------------------------------------------------------------------------------
+INFO: [Synth 8-802] inferred FSM for state register 'state_reg_reg' in module 'debouncer'
+INFO: [Synth 8-802] inferred FSM for state register 'state_reg' in module 'time_mux_state_machine'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                    zero |                             0000 |                             0000
+                   high1 |                             0001 |                             0001
+                   high2 |                             0010 |                             0010
+                   high3 |                             0011 |                             0011
+                   high4 |                             0100 |                             1010
+                   high5 |                             0101 |                             1011
+                   high6 |                             0110 |                             1100
+                   high7 |                             0111 |                             1101
+                   high8 |                             1000 |                             1110
+                     one |                             1001 |                             0100
+              waitState2 |                             1010 |                             1001
+                  iSTATE |                             1011 |                             1111
+*
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'state_reg_reg' using encoding 'sequential' in module 'debouncer'
+WARNING: [Synth 8-327] inferring latch for variable 'out_clk_reg' [C:/Users/adamk/460m_lab5/460m_lab5.srcs/sources_1/new/clk_50_mhz.v:15]
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                  iSTATE |                               00 |                               00
+                 iSTATE0 |                               01 |                               01
+                 iSTATE1 |                               10 |                               10
+                 iSTATE2 |                               11 |                               11
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'state_reg' using encoding 'sequential' in module 'time_mux_state_machine'
+WARNING: [Synth 8-327] inferring latch for variable 'cs_reg_reg' [C:/Users/adamk/460m_lab5/460m_lab5.srcs/sources_1/new/controller.v:103]
+WARNING: [Synth 8-327] inferring latch for variable 'we_reg_reg' [C:/Users/adamk/460m_lab5/460m_lab5.srcs/sources_1/new/controller.v:102]
+WARNING: [Synth 8-327] inferring latch for variable 'addr_reg_reg' [C:/Users/adamk/460m_lab5/460m_lab5.srcs/sources_1/new/controller.v:100]
+WARNING: [Synth 8-327] inferring latch for variable 'bus_reg_reg' [C:/Users/adamk/460m_lab5/460m_lab5.srcs/sources_1/new/controller.v:101]
+WARNING: [Synth 8-327] inferring latch for variable 'DAR_reg' [C:/Users/adamk/460m_lab5/460m_lab5.srcs/sources_1/new/controller.v:104]
+WARNING: [Synth 8-327] inferring latch for variable 'SPR_reg' [C:/Users/adamk/460m_lab5/460m_lab5.srcs/sources_1/new/controller.v:105]
+WARNING: [Synth 8-327] inferring latch for variable 'counter_reg' [C:/Users/adamk/460m_lab5/460m_lab5.srcs/sources_1/new/controller.v:140]
+WARNING: [Synth 8-327] inferring latch for variable 'op_1_reg' [C:/Users/adamk/460m_lab5/460m_lab5.srcs/sources_1/new/controller.v:180]
+WARNING: [Synth 8-327] inferring latch for variable 'DVR_reg' [C:/Users/adamk/460m_lab5/460m_lab5.srcs/sources_1/new/controller.v:87]
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:15 ; elapsed = 00:00:16 . Memory (MB): peak = 1447.582 ; gain = 578.832
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start RTL Component Statistics 
+---------------------------------------------------------------------------------
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input    8 Bit       Adders := 1     
+	   3 Input    8 Bit       Adders := 1     
+	   2 Input    7 Bit       Adders := 5     
+	   2 Input    3 Bit       Adders := 1     
+	   2 Input    1 Bit       Adders := 4     
++---Registers : 
+	                8 Bit    Registers := 1     
+	                5 Bit    Registers := 2     
+	                1 Bit    Registers := 4     
++---RAMs : 
+	             1024 Bit	(128 X 8 bit)          RAMs := 1     
++---Muxes : 
+	   2 Input    8 Bit        Muxes := 1     
+	  24 Input    8 Bit        Muxes := 1     
+	   4 Input    7 Bit        Muxes := 1     
+	   6 Input    7 Bit        Muxes := 1     
+	   7 Input    7 Bit        Muxes := 1     
+	  24 Input    7 Bit        Muxes := 1     
+	   2 Input    5 Bit        Muxes := 8     
+	  12 Input    4 Bit        Muxes := 4     
+	   2 Input    4 Bit        Muxes := 40    
+	   9 Input    4 Bit        Muxes := 1     
+	   4 Input    4 Bit        Muxes := 1     
+	  24 Input    3 Bit        Muxes := 3     
+	   2 Input    3 Bit        Muxes := 2     
+	   4 Input    2 Bit        Muxes := 1     
+	  24 Input    2 Bit        Muxes := 2     
+	   2 Input    1 Bit        Muxes := 11    
+	  12 Input    1 Bit        Muxes := 8     
+	  24 Input    1 Bit        Muxes := 6     
+	   4 Input    1 Bit        Muxes := 2     
+---------------------------------------------------------------------------------
+Finished RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Part Resource Summary
+---------------------------------------------------------------------------------
+Part Resources:
+DSPs: 90 (col length:60)
+BRAMs: 100 (col length: RAMB18 60 RAMB36 30)
+---------------------------------------------------------------------------------
+Finished Part Resource Summary
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Cross Boundary and Area Optimization
+---------------------------------------------------------------------------------
+WARNING: [Synth 8-7080] Parallel synthesis criteria is not met
+---------------------------------------------------------------------------------
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:18 ; elapsed = 00:00:20 . Memory (MB): peak = 1447.582 ; gain = 578.832
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+
+ROM: Preliminary Mapping Report
++------------+--------------+---------------+----------------+
+|Module Name | RTL Object   | Depth x Width | Implemented As | 
++------------+--------------+---------------+----------------+
+|controller  | we_reg       | 32x1          | LUT            | 
+|controller  | counter      | 32x1          | LUT            | 
+|top         | ctrl/we_reg  | 32x1          | LUT            | 
+|top         | ctrl/counter | 32x1          | LUT            | 
++------------+--------------+---------------+----------------+
+
+
+Block RAM: Preliminary Mapping Report (see note below)
++------------+-------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
+|Module Name | RTL Object  | PORT A (Depth x Width) | W | R | PORT B (Depth x Width) | W | R | Ports driving FF | RAMB18 | RAMB36 | 
++------------+-------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
+|top         | mem/RAM_reg | 128 x 8(READ_FIRST)    | W | R |                        |   |   | Port A           | 1      | 0      | 
++------------+-------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
+
+Note: The table above is a preliminary report that shows the Block RAMs at the current stage of the synthesis flow. Some Block RAMs may be reimplemented as non Block RAM primitives later in the synthesis flow. Multiple instantiated Block RAMs are reported only once. 
+---------------------------------------------------------------------------------
+Finished ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying XDC Timing Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:23 ; elapsed = 00:00:25 . Memory (MB): peak = 1447.582 ; gain = 578.832
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Timing Optimization
+---------------------------------------------------------------------------------
+      : i_17/I9[3]
+      : i_17/I9[1]
+      : i_17/I9[1]
+      : i_17/I9[4]
+      : i_17/I9[1]
+      : i_17/I9[4]
+      : i_17/I9[3]
+      : i_17/I9[0]
+      : i_17/I9[0]
+---------------------------------------------------------------------------------
+Finished Timing Optimization : Time (s): cpu = 00:00:24 ; elapsed = 00:00:26 . Memory (MB): peak = 1447.582 ; gain = 578.832
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+
+Block RAM: Final Mapping Report
++------------+-------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
+|Module Name | RTL Object  | PORT A (Depth x Width) | W | R | PORT B (Depth x Width) | W | R | Ports driving FF | RAMB18 | RAMB36 | 
++------------+-------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
+|top         | mem/RAM_reg | 128 x 8(READ_FIRST)    | W | R |                        |   |   | Port A           | 1      | 0      | 
++------------+-------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
+
+---------------------------------------------------------------------------------
+Finished ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Technology Mapping
+---------------------------------------------------------------------------------
+WARNING: [Synth 8-264] enable of latch \ctrl/op_1_reg[0]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/op_1_reg[0]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/op_1_reg[1]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/op_1_reg[1]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/op_1_reg[2]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/op_1_reg[2]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/op_1_reg[3]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/op_1_reg[3]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/op_1_reg[7]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/op_1_reg[7]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/op_1_reg[4]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/op_1_reg[4]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/op_1_reg[5]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/op_1_reg[5]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/op_1_reg[6]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/op_1_reg[6]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/addr_reg_reg[0]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/addr_reg_reg[0]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/addr_reg_reg[1]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/addr_reg_reg[1]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/addr_reg_reg[2]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/addr_reg_reg[2]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/addr_reg_reg[3]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/addr_reg_reg[3]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/addr_reg_reg[4]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/addr_reg_reg[4]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/addr_reg_reg[5]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/addr_reg_reg[5]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/addr_reg_reg[6]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/addr_reg_reg[6]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/bus_reg_reg[2]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/bus_reg_reg[2]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/bus_reg_reg[3]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/bus_reg_reg[3]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/bus_reg_reg[0]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/bus_reg_reg[0]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/bus_reg_reg[1]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/bus_reg_reg[1]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/bus_reg_reg[6]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/bus_reg_reg[6]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/bus_reg_reg[7]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/bus_reg_reg[7]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/bus_reg_reg[4]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/bus_reg_reg[4]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/bus_reg_reg[5]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/bus_reg_reg[5]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/we_reg_reg  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/we_reg_reg  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/DAR_reg[0]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/DAR_reg[0]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/DAR_reg[1]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/DAR_reg[1]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/DAR_reg[2]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/DAR_reg[2]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/DAR_reg[3]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/DAR_reg[3]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/DAR_reg[4]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/DAR_reg[4]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/DAR_reg[5]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/DAR_reg[5]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/DAR_reg[6]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/DAR_reg[6]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/SPR_reg[1]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/SPR_reg[1]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/SPR_reg[5]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/SPR_reg[5]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/SPR_reg[6]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/SPR_reg[6]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/SPR_reg[3]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/SPR_reg[3]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/SPR_reg[4]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/SPR_reg[4]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/SPR_reg[2]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/SPR_reg[2]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/DAR_reg[0]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/DAR_reg[0]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/DAR_reg[1]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/DAR_reg[1]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/DAR_reg[2]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/DAR_reg[2]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/DAR_reg[3]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/DAR_reg[3]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/DAR_reg[4]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/DAR_reg[4]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/DAR_reg[5]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/DAR_reg[5]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/DAR_reg[6]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/DAR_reg[6]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/SPR_reg[1]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/SPR_reg[1]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/SPR_reg[5]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/SPR_reg[5]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/SPR_reg[6]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/SPR_reg[6]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/SPR_reg[3]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/SPR_reg[3]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/SPR_reg[4]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/SPR_reg[4]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/SPR_reg[2]  is always disabled
+WARNING: [Synth 8-264] enable of latch \ctrl/SPR_reg[2]  is always disabled
+INFO: [Common 17-14] Message 'Synth 8-264' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+WARNING: [Synth 8-3332] Sequential element (b0/FSM_sequential_state_reg_reg[3]) is unused and will be removed from module top.
+WARNING: [Synth 8-3332] Sequential element (b0/FSM_sequential_state_reg_reg[2]) is unused and will be removed from module top.
+WARNING: [Synth 8-3332] Sequential element (b0/FSM_sequential_state_reg_reg[1]) is unused and will be removed from module top.
+WARNING: [Synth 8-3332] Sequential element (b0/FSM_sequential_state_reg_reg[0]) is unused and will be removed from module top.
+WARNING: [Synth 8-3332] Sequential element (ctrl/cs_reg_reg) is unused and will be removed from module top.
+WARNING: [Synth 8-3332] Sequential element (ctrl/we_reg_reg) is unused and will be removed from module top.
+WARNING: [Synth 8-3332] Sequential element (ctrl/addr_reg_reg[6]) is unused and will be removed from module top.
+WARNING: [Synth 8-3332] Sequential element (ctrl/addr_reg_reg[5]) is unused and will be removed from module top.
+WARNING: [Synth 8-3332] Sequential element (ctrl/addr_reg_reg[4]) is unused and will be removed from module top.
+WARNING: [Synth 8-3332] Sequential element (ctrl/addr_reg_reg[3]) is unused and will be removed from module top.
+WARNING: [Synth 8-3332] Sequential element (ctrl/addr_reg_reg[2]) is unused and will be removed from module top.
+WARNING: [Synth 8-3332] Sequential element (ctrl/addr_reg_reg[1]) is unused and will be removed from module top.
+WARNING: [Synth 8-3332] Sequential element (ctrl/addr_reg_reg[0]) is unused and will be removed from module top.
+WARNING: [Synth 8-3332] Sequential element (ctrl/bus_reg_reg[7]) is unused and will be removed from module top.
+WARNING: [Synth 8-3332] Sequential element (ctrl/bus_reg_reg[6]) is unused and will be removed from module top.
+WARNING: [Synth 8-3332] Sequential element (ctrl/bus_reg_reg[5]) is unused and will be removed from module top.
+WARNING: [Synth 8-3332] Sequential element (ctrl/bus_reg_reg[4]) is unused and will be removed from module top.
+WARNING: [Synth 8-3332] Sequential element (ctrl/bus_reg_reg[3]) is unused and will be removed from module top.
+WARNING: [Synth 8-3332] Sequential element (ctrl/bus_reg_reg[2]) is unused and will be removed from module top.
+WARNING: [Synth 8-3332] Sequential element (ctrl/bus_reg_reg[1]) is unused and will be removed from module top.
+WARNING: [Synth 8-3332] Sequential element (ctrl/bus_reg_reg[0]) is unused and will be removed from module top.
+WARNING: [Synth 8-3332] Sequential element (ctrl/counter_reg[2]) is unused and will be removed from module top.
+WARNING: [Synth 8-3332] Sequential element (ctrl/counter_reg[1]) is unused and will be removed from module top.
+WARNING: [Synth 8-3332] Sequential element (ctrl/counter_reg[0]) is unused and will be removed from module top.
+WARNING: [Synth 8-3332] Sequential element (ctrl/op_1_reg[7]) is unused and will be removed from module top.
+WARNING: [Synth 8-3332] Sequential element (ctrl/op_1_reg[6]) is unused and will be removed from module top.
+WARNING: [Synth 8-3332] Sequential element (ctrl/op_1_reg[5]) is unused and will be removed from module top.
+WARNING: [Synth 8-3332] Sequential element (ctrl/op_1_reg[4]) is unused and will be removed from module top.
+WARNING: [Synth 8-3332] Sequential element (ctrl/op_1_reg[3]) is unused and will be removed from module top.
+WARNING: [Synth 8-3332] Sequential element (ctrl/op_1_reg[2]) is unused and will be removed from module top.
+WARNING: [Synth 8-3332] Sequential element (ctrl/op_1_reg[1]) is unused and will be removed from module top.
+WARNING: [Synth 8-3332] Sequential element (ctrl/op_1_reg[0]) is unused and will be removed from module top.
+WARNING: [Synth 8-3332] Sequential element (ctrl/DVR_reg[7]) is unused and will be removed from module top.
+WARNING: [Synth 8-3332] Sequential element (ctrl/DVR_reg[6]) is unused and will be removed from module top.
+WARNING: [Synth 8-3332] Sequential element (ctrl/DVR_reg[5]) is unused and will be removed from module top.
+WARNING: [Synth 8-3332] Sequential element (ctrl/DVR_reg[4]) is unused and will be removed from module top.
+WARNING: [Synth 8-3332] Sequential element (ctrl/DVR_reg[3]) is unused and will be removed from module top.
+WARNING: [Synth 8-3332] Sequential element (ctrl/DVR_reg[2]) is unused and will be removed from module top.
+WARNING: [Synth 8-3332] Sequential element (ctrl/DVR_reg[1]) is unused and will be removed from module top.
+WARNING: [Synth 8-3332] Sequential element (ctrl/DVR_reg[0]) is unused and will be removed from module top.
+WARNING: [Synth 8-3332] Sequential element (ctrl/DAR_reg[6]) is unused and will be removed from module top.
+WARNING: [Synth 8-3332] Sequential element (ctrl/DAR_reg[5]) is unused and will be removed from module top.
+WARNING: [Synth 8-3332] Sequential element (ctrl/DAR_reg[4]) is unused and will be removed from module top.
+WARNING: [Synth 8-3332] Sequential element (ctrl/DAR_reg[3]) is unused and will be removed from module top.
+WARNING: [Synth 8-3332] Sequential element (ctrl/DAR_reg[2]) is unused and will be removed from module top.
+WARNING: [Synth 8-3332] Sequential element (ctrl/DAR_reg[1]) is unused and will be removed from module top.
+WARNING: [Synth 8-3332] Sequential element (ctrl/DAR_reg[0]) is unused and will be removed from module top.
+WARNING: [Synth 8-3332] Sequential element (ctrl/SPR_reg[6]) is unused and will be removed from module top.
+WARNING: [Synth 8-3332] Sequential element (ctrl/SPR_reg[5]) is unused and will be removed from module top.
+WARNING: [Synth 8-3332] Sequential element (ctrl/SPR_reg[4]) is unused and will be removed from module top.
+WARNING: [Synth 8-3332] Sequential element (ctrl/SPR_reg[3]) is unused and will be removed from module top.
+WARNING: [Synth 8-3332] Sequential element (ctrl/SPR_reg[2]) is unused and will be removed from module top.
+WARNING: [Synth 8-3332] Sequential element (ctrl/SPR_reg[1]) is unused and will be removed from module top.
+WARNING: [Synth 8-3332] Sequential element (ctrl/SPR_reg[0]) is unused and will be removed from module top.
+---------------------------------------------------------------------------------
+Finished Technology Mapping : Time (s): cpu = 00:00:24 ; elapsed = 00:00:26 . Memory (MB): peak = 1447.582 ; gain = 578.832
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished IO Insertion : Time (s): cpu = 00:00:29 ; elapsed = 00:00:30 . Memory (MB): peak = 1447.582 ; gain = 578.832
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Instances
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:29 ; elapsed = 00:00:30 . Memory (MB): peak = 1447.582 ; gain = 578.832
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Rebuilding User Hierarchy
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:29 ; elapsed = 00:00:30 . Memory (MB): peak = 1447.582 ; gain = 578.832
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Ports
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:29 ; elapsed = 00:00:30 . Memory (MB): peak = 1447.582 ; gain = 578.832
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:29 ; elapsed = 00:00:30 . Memory (MB): peak = 1447.582 ; gain = 578.832
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Nets
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:29 ; elapsed = 00:00:30 . Memory (MB): peak = 1447.582 ; gain = 578.832
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Writing Synthesis Report
+---------------------------------------------------------------------------------
+
+Report BlackBoxes: 
++-+--------------+----------+
+| |BlackBox name |Instances |
++-+--------------+----------+
++-+--------------+----------+
+
+Report Cell Usage: 
++------+-------+------+
+|      |Cell   |Count |
++------+-------+------+
+|1     |BUFG   |     1|
+|2     |CARRY4 |     4|
+|3     |LUT1   |     6|
+|4     |LUT2   |     5|
+|5     |LUT4   |     2|
+|6     |LUT5   |    12|
+|7     |LUT6   |     4|
+|8     |FDRE   |    32|
+|9     |LD     |     1|
+|10    |IBUF   |     4|
+|11    |OBUF   |    19|
++------+-------+------+
+---------------------------------------------------------------------------------
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:29 ; elapsed = 00:00:30 . Memory (MB): peak = 1447.582 ; gain = 578.832
+---------------------------------------------------------------------------------
+Synthesis finished with 0 errors, 0 critical warnings and 165 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:20 ; elapsed = 00:00:29 . Memory (MB): peak = 1447.582 ; gain = 551.809
+Synthesis Optimization Complete : Time (s): cpu = 00:00:29 ; elapsed = 00:00:31 . Memory (MB): peak = 1447.582 ; gain = 578.832
+INFO: [Project 1-571] Translating synthesized netlist
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 1449.332 ; gain = 0.000
+INFO: [Netlist 29-17] Analyzing 5 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 1454.961 ; gain = 0.000
+INFO: [Project 1-111] Unisim Transformation Summary:
+  A total of 1 instances were transformed.
+  LD => LDCE: 1 instance 
+
+The system cannot find the path specified.
+Synth Design complete | Checksum: 2c627902
+INFO: [Common 17-83] Releasing license: Synthesis
+48 Infos, 165 Warnings, 0 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:00:33 ; elapsed = 00:00:36 . Memory (MB): peak = 1454.961 ; gain = 979.598
+Write ShapeDB Complete: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.001 . Memory (MB): peak = 1454.961 ; gain = 0.000
+INFO: [Common 17-1381] The checkpoint 'C:/Users/adamk/460m_lab5/460m_lab5.runs/synth_1/top.dcp' has been generated.
+INFO: [runtcl-4] Executing : report_utilization -file top_utilization_synth.rpt -pb top_utilization_synth.pb
+INFO: [Common 17-206] Exiting Vivado at Fri Mar 28 11:46:56 2025...
