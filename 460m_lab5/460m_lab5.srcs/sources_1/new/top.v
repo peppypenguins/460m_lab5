@@ -15,7 +15,7 @@ wire we;
 wire[6:0] addr;
 wire[7:0] data_out_mem;
 wire[7:0] data_out_ctrl;
-tri[7:0] data_bus;
+wire[7:0] data_bus;
 
 wire true_clk;
 
@@ -27,12 +27,12 @@ wire btn0;
 wire[3:0] btns_debounce = {btn3, btn2, btn1, btn0};
 
 
-debouncer b3( .clk(clk), .reset(0), .button(btns[3]), .out(btn3));
-debouncer b2( .clk(clk), .reset(0), .button(btns[2]), .out(btn2));
-debouncer b1( .clk(clk), .reset(0), .button(btns[1]), .out(btn1));
-debouncer b0( .clk(clk), .reset(0), .button(btns[0]), .out(btn0));
+debounce2 b3( .clk(clk), .reset(0), .button(btns[3]), .out(btn3));
+debounce2 b2( .clk(clk), .reset(0), .button(btns[2]), .out(btn2));
+debounce2 b1( .clk(clk), .reset(0), .button(btns[1]), .out(btn1));
+debounce2 b0( .clk(clk), .reset(0), .button(btns[0]), .out(btn0));
 
-clk_50_mhz u2(.clk(clk), .out_clk(true_clk));
+clk_50_mhz u2(.clk(clk),.reset(0), .out_clk(true_clk));
 
 //CHANGE THESE TWO LINES
 //assign data_bus = 1; // 1st driver of the data bus -- tri state switches
@@ -41,7 +41,7 @@ clk_50_mhz u2(.clk(clk), .out_clk(true_clk));
 //assign data_bus = 1; // 2nd driver of the data bus -- tri state switches
 // function of we and data_out_mem
 
-tri_data_bus t0(.we(we), .driver1_data(data_out_ctrl), .driver2_data(data_out_mem), .data_bus(data_bus));
+tri_data_bus t0(.clk(true_clk), .we(we), .driver1_data(data_out_ctrl), .driver2_data(data_out_mem), .data_bus(data_bus));
 
 controller ctrl(true_clk, cs, we, addr, data_bus, data_out_ctrl,
 btns_debounce, swtchs, leds, segs, an);

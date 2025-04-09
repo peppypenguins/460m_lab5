@@ -35,27 +35,26 @@ module controller(clk, cs, we, address, data_in, data_out, btns, swtchs, leds, s
                 SUB_STORE_1 = 19,
                 TOP_READ = 20,
                 DEC_READ = 21,
-                INC_READ = 22;
-                
-                  
-    
+                INC_READ = 22,
+                WAIT_ONE_CYCLE = 23,
+                ADD_POP_MID = 24,
+                SUB_POP_MID = 26;   
     
     reg [4:0] S;
     reg [4:0] NS;
+    reg [4:0] PS;
+    reg [4:0] prev_op;
     
-    wire btn3 = btns[3];
-    wire btn2 = btns[2];
-    wire btn1 = btns[1];
-    wire btn0 = btns[0];
+    wire pop = (!btns[3]) && (!btns[2]) && btns[1];
+    wire push = (!btns[3]) && (!btns[2]) && btns[0];
+    wire add = (!btns[3]) && btns[2] && btns[0];
+    wire subtract = (!btns[3]) && btns[2] && btns[1];
+    wire clear = (btns[3]) && (!btns[2]) && btns[1];
+    wire top = (btns[3]) && (!btns[2]) && btns[0];
+    wire dec = btns[3] && btns[2] && btns[1];
+    wire inc = btns[3] && btns[2] && btns[0];
     
-    wire pop = (!btn3) && (!btn2) && btn1;
-    wire push = (!btn3) && (!btn2) && btn0;
-    wire add = (!btn3) && btn2 && btn0;
-    wire subtract = (!btn3) && btn2 && btn1;
-    wire clear = (btn3) && (!btn2) && btn1;
-    wire top = (btn3) && (!btn2) && btn0;
-    wire dec = btn3 && btn2 && btn1;
-    wire inc = btn3 && btn2 && btn0;
+    wire clk_change = clk;
     
     wire[4:0] next_operation;
     
@@ -110,222 +109,715 @@ module controller(clk, cs, we, address, data_in, data_out, btns, swtchs, leds, s
         DAR = 7'h00;
         DVR = 8'h00;
         bus_reg = 8'h00;
+        addr_reg = 7'b0000000;
         S = 5'b00000;
         NS = 5'b00000;
+        PS = 5'b00000;
+        prev_op = 5'b00000;
         we_reg = 0;
         cs_reg = 0;
         counter = 0;        
     end
     
-    always @ (posedge clk) begin
-        if (clear) begin
-            S <= 5'b00000;
-            NS <= 5'b00000;
-        end else
-            S <= NS;          
+    always @ (*) begin
+        case (S)
+           START:begin
+                NS = next_operation;
+                PS = START;
+                prev_op = next_operation;
+           end
+           DELETE:begin
+                prev_op = prev_op;
+                NS = DELETE_WAIT;
+                PS = DELETE;
+           end
+           ENTER:begin
+                prev_op = prev_op;
+                NS = ENTER_WAIT_1;
+                PS = ENTER;
+           end
+           ADD:begin
+                prev_op = prev_op;
+                NS = ADD_POP_1; 
+                PS = ADD;
+           end
+           SUBTRACT:begin
+                prev_op = prev_op;
+                NS = SUB_POP_1;
+                PS = SUBTRACT;
+           end
+           CLEAR:begin
+                prev_op = prev_op;
+                NS = CLEAN;
+                PS = CLEAR;
+           end
+           TOP:begin
+                prev_op = prev_op;
+                NS = TOP_READ;
+                PS = TOP;
+           end
+           DEC:begin
+                prev_op = prev_op;
+                NS = DEC_READ;
+                PS = DEC;
+           end
+           INC:begin
+                prev_op = prev_op;
+                NS = INC_READ;
+                PS = INC;
+           end
+           CLEAN:begin
+                prev_op = prev_op;
+                PS = CLEAN;
+                if (prev_op != next_operation) 
+                    NS <= START;
+                else 
+                    NS <= CLEAN; 
+           end
+           DELETE_WAIT:begin
+                prev_op = prev_op;
+                PS = DELETE_WAIT;
+            if (counter >= 1)
+                NS = CLEAN;
+            else 
+                NS = DELETE_WAIT;
+           end
+           ENTER_WAIT_1:begin
+                PS = ENTER_WAIT_1;
+                prev_op = prev_op;
+                
+                if (counter >= 1)
+                    NS = ENTER_CLEAN;
+                else
+                    NS = ENTER_WAIT_1;
+           end
+           ENTER_CLEAN:begin
+                prev_op = prev_op;
+                NS = CLEAN;
+                PS = ENTER_CLEAN;
+           end
+           ADD_POP_1:begin
+                prev_op = prev_op;
+                NS = ADD_POP_MID;
+                PS = ADD_POP_1;
+           end
+           ADD_POP_2:begin
+                prev_op = prev_op;
+                NS = ADD_STORE_1;
+                PS = ADD_POP_2;
+           end
+           ADD_STORE_1:begin
+                prev_op = prev_op;
+                PS = ADD_STORE_1;
+                if (counter >= 1)
+                    NS = ADD_STORE_2;
+                else 
+                    NS = ADD_STORE_1;
+           end
+           ADD_STORE_2:begin
+                prev_op = prev_op;
+                NS = CLEAN;
+                PS = ADD_STORE_2;
+           end
+           SUB_POP_1:begin
+                prev_op = prev_op;
+                NS = SUB_POP_MID;
+                PS = SUB_POP_1;
+           end
+           SUB_POP_2:begin
+                prev_op = prev_op;
+                NS = SUB_STORE_1;
+                PS = SUB_POP_2;
+           end
+           SUB_STORE_1:begin
+                prev_op = prev_op;
+                PS = SUB_STORE_1;
+                if (counter >= 1)
+                    NS = ADD_STORE_2;
+                else 
+                    NS = SUB_STORE_1;
+           end
+           TOP_READ:begin
+                prev_op = prev_op;
+                
+                if (counter >= 1)
+                    NS = CLEAN;
+                else 
+                    NS = TOP_READ;
+                PS = TOP_READ;
+           end
+           DEC_READ:begin
+                prev_op = prev_op;
+                if (counter >= 1)           
+                    NS = CLEAN;
+                else 
+                    NS = DEC_READ;
+                PS = DEC_READ;
+           end
+           INC_READ:begin
+                prev_op = prev_op;
+                if (counter >= 1)
+                    NS = CLEAN;
+                else 
+                    NS = INC_READ;
+                PS = INC_READ;
+           end
+           ADD_POP_MID: begin
+                prev_op = prev_op;
+                NS = ADD_POP_2;
+                PS = ADD_POP_MID;
+           end
+           SUB_POP_MID: begin
+                prev_op = prev_op;
+                NS = SUB_POP_2;
+                PS = SUB_POP_MID;
+           end
+           WAIT_ONE_CYCLE: begin
+                prev_op = prev_op;
+                case (PS)
+                    ENTER_WAIT_1: NS = ENTER_CLEAN;
+                    ADD_STORE_1: NS = ADD_STORE_2;
+                    SUB_STORE_1: NS = ADD_STORE_2;
+                    default: NS = CLEAN;
+                endcase
+                PS = WAIT_ONE_CYCLE;
+           end
+           default: begin
+                prev_op = prev_op;
+                NS = START;
+                PS = START;
+           end
+        endcase
     end
     
     
-    always @(*) begin
+    always @ (posedge clk) begin
+            S <= NS;          
+    end
+    
+    always @(posedge clk) begin
         case (S) 
-            START   : NS = next_operation;
+            START   : begin             
+                //NS <= next_operation;
+                //prev_op <= next_operation;
+                cs_reg <= cs_reg;
+                we_reg <= we_reg;
+                addr_reg <= addr_reg;
+                bus_reg <= bus_reg;
+                DAR <= DAR;
+                SPR <= SPR;
+                counter <= counter;
+                op_1 <= op_1;
+                op_2 <= op_2;
+                DVR <= DVR;
+            end
             DELETE  : begin
-                SPR = SPR + 1;
-                DAR = SPR + 1;
-                addr_reg = DAR; 
-                we_reg = 1;   
-                NS = DELETE_WAIT;       
+                SPR <= SPR;
+                DAR <= DAR;
+                addr_reg <= SPR + 2; 
+                we_reg <= 1;   
+                //NS <= DELETE_WAIT;                  
+                cs_reg <= cs_reg;
+                counter <= counter;
+                DVR <= DVR; 
+                prev_op <= prev_op;  
+                
+                /*
+                addr_reg <= SPR + 1;
+                we_reg <= 1;
+                //NS <= ADD_POP_1;    
+                cs_reg <= cs_reg;
+                bus_reg <= bus_reg;
+                DAR <= DAR;
+                SPR <= SPR;
+                counter <= counter;
+                op_1 <= op_1;
+                op_2 <= op_2;
+                DVR <= DVR;
+                prev_op <= prev_op;  
+                */                 
             end
             DELETE_WAIT: 
-            if (counter == 4) begin
-                counter = 0;
-                DVR = data_in;
-                we_reg = 0;
-                NS = START;
+            if (counter >= 1) begin
+                counter <= 0;
+                DVR <= data_in;
+                we_reg <= 0;
+                cs_reg <= cs_reg;
+                addr_reg <= addr_reg;
+                bus_reg <= bus_reg;
+                DAR <= SPR + 2;
+                SPR <= SPR + 1;
+                op_1 <= op_1;
+                op_2 <= op_2;
             end else begin
-                counter = counter + 1;
-                NS = DELETE_WAIT;
+                    counter <= counter + 1;
+                    op_1 <= op_1;
+                    SPR <= SPR;
+                    DAR <= SPR;
+                    addr_reg <= addr_reg;
+                    cs_reg <= cs_reg;
+                    we_reg <= we_reg;
+                    op_2 <= op_2;
+                    DVR <= DVR;
+                    prev_op <= prev_op; 
             end
             ENTER   : begin
-                bus_reg = swtchs;
-                addr_reg = SPR;
-                NS = ENTER_WAIT_1;                           
+                bus_reg <= swtchs;
+                addr_reg <= SPR;
+                cs_reg <= cs_reg;
+                we_reg <= we_reg;
+                DAR <= DAR;
+                SPR <= SPR;
+                counter <= counter;
+                op_1 <= op_1;
+                op_2 <= op_2;
+                DVR <= DVR;
+                //NS <= ENTER_WAIT_1;  
+                prev_op <= prev_op;                         
             end
             ENTER_WAIT_1: 
-            if (counter == 2) begin
-                cs_reg = 1;
-                we_reg = 1;
-                counter = 0;
-                NS = ENTER_CLEAN;
+            if (counter >= 1) begin
+                //NS <= CLEAN;
+                cs_reg <= 1;
+                we_reg <= 1;
+                counter <= counter;
+                addr_reg <= addr_reg;
+                bus_reg <= bus_reg;
+                DAR <= DAR;
+                SPR <= SPR;
+                op_1 <= op_1;
+                op_2 <= op_2;
+                DVR <= DVR;
+                prev_op <= prev_op;
             end else begin
-                counter = counter + 1;
-                NS = ENTER_WAIT_1;
+                counter <= counter + 1;
+                cs_reg <= cs_reg;
+                we_reg <= we_reg;
+                addr_reg <= addr_reg;
+                bus_reg <= bus_reg;
+                DAR <= DAR;
+                SPR <= SPR;
+                op_1 <= op_1;
+                op_2 <= op_2;
+                DVR <= DVR;
+                //NS <= ENTER_CLEAN;
+                prev_op <= prev_op;
             end
             ENTER_CLEAN: begin
-                SPR = SPR - 1;
-                DAR = SPR + 1;
-                DVR = data_in;
-                we_reg = 0;
-                cs_reg = 0;               
-                NS = START;            
+                //NS <= CLEAN;
+                SPR <= SPR - 1;
+                DAR <= SPR;
+                DVR <= data_in;
+                we_reg <= 0;
+                cs_reg <= 0;
+                addr_reg <= addr_reg;
+                bus_reg <= bus_reg;
+                counter <= 0;
+                op_1 <= op_1;
+                op_2 <= op_2;             
+                prev_op <= prev_op;            
             end           
             ADD     : begin
-                addr_reg = SPR + 1;
-                we_reg = 1;
-                NS = ADD_POP_1;            
+                addr_reg <= SPR + 1;
+                we_reg <= 1;
+                //NS <= ADD_POP_1;    
+                cs_reg <= cs_reg;
+                bus_reg <= bus_reg;
+                DAR <= DAR;
+                SPR <= SPR;
+                counter <= counter;
+                op_1 <= op_1;
+                op_2 <= op_2;
+                DVR <= DVR;
+                prev_op <= prev_op;        
             end
             ADD_POP_1: begin
-                if (counter == 2) begin
-                    counter = 0;
-                    op_1 = data_in;
-                    SPR = SPR + 1;
-                    DAR = SPR + 1;
-                    addr_reg = DAR;
-                    NS = ADD_POP_2;
-                end else begin
+                //if (counter >= 2) begin
+                    counter <= 0;
+                    op_1 <= data_in;
+                    SPR <= SPR + 1;
+                    DAR <= SPR + 2;
+                    addr_reg <= SPR + 2;
+                    cs_reg <= cs_reg;
+                    we_reg <= 1;
+                    op_2 <= op_2;
+                    DVR <= DVR;
+                    //NS <= ADD_POP_2;
+                    prev_op <= prev_op;                   
+                /*end else begin
                     counter = counter + 1;
+                    cs_reg = cs_reg;
+                    we_reg = we_reg;
+                    addr_reg = addr_reg;
+                    bus_reg = bus_reg;
+                    DAR = DAR;
+                    SPR = SPR;
+                    op_1 = op_1;
+                    op_2 = op_2;
+                    DVR = DVR;
                     NS = ADD_POP_1;
-                end                      
+                    prev_op = prev_op;
+                end  */                    
+            end
+            ADD_POP_MID: begin
+                cs_reg <= cs_reg;
+                we_reg <= we_reg;
+                addr_reg <= addr_reg;
+                bus_reg <= bus_reg;
+                DAR <= DAR;
+                SPR <= SPR;
+                counter <= counter;
+                op_1 <= op_1;
+                op_2 <= op_2;
+                DVR <= DVR;
             end
             ADD_POP_2: begin
-                if (counter == 2) begin
-                    counter = 0;
-                    op_2 = data_in;
-                    SPR = SPR + 1;
-                    DAR = SPR + 1;
-                    we_reg = 0;
-                    bus_reg = op_1 + op_2;
-                    DVR = op_1 + op_2;
-                    addr_reg = SPR;
-                    NS = ADD_STORE_1;
-                end else begin
+                //if (counter == 2) begin
+                    counter <= 0;
+                    op_2 <= data_in;
+                    SPR <= SPR + 1;
+                    DAR <= SPR + 2;
+                    we_reg <= 0;
+                    bus_reg <= op_1 + data_in;
+                    DVR <= op_1 + data_in;
+                    addr_reg <= SPR + 1;
+                    //NS <= ADD_STORE_1;
+                    prev_op <= prev_op;
+               /* end else begin
                     counter = counter + 1;
-                    NS = ADD_POP_2;               
-                end           
+                    cs_reg = cs_reg;
+                    we_reg = we_reg;
+                    addr_reg = addr_reg;
+                    bus_reg = bus_reg;
+                    DAR = DAR;
+                    SPR = SPR;
+                    op_1 = op_1;
+                    op_2 = op_2;
+                    DVR = DVR;
+                    NS = ADD_POP_2;
+                    prev_op = prev_op;               
+                end     */      
             end
             ADD_STORE_1: begin
-                if (counter == 2) begin
-                    counter = 0;
-                    cs_reg = 1;
-                    we_reg = 1;                                   
-                    NS = ADD_STORE_2;
+                if (counter >= 1) begin
+                    counter <= 0;
+                    cs_reg <= 1;
+                    we_reg <= 1;
+                    addr_reg <= addr_reg;
+                    bus_reg <= bus_reg;
+                    DAR <= DAR;
+                    SPR <= SPR;
+                    op_1 <= op_1;
+                    op_2 <= op_2;
+                    DVR <= DVR;                                   
+                    //NS <= ADD_STORE_2;
+                    prev_op <= prev_op;
                 end else begin
-                    counter = counter + 1;
-                    NS = ADD_STORE_1;
+                    counter <= counter + 1;
+                    cs_reg <= cs_reg;
+                    we_reg <= we_reg;
+                    addr_reg <= addr_reg;
+                    bus_reg <= bus_reg;
+                    DAR <= DAR;
+                    SPR <= SPR;
+                    op_1 <= op_1;
+                    op_2 <= op_2;
+                    DVR <= DVR;
+                    //NS <= ADD_STORE_1;
+                    prev_op <= prev_op;
                 end
             end
             ADD_STORE_2: begin
-                SPR = SPR - 1;
-                DAR = SPR + 1;
-                cs_reg = 0;
-                we_reg = 0;
-                NS = START;
+                SPR <= SPR - 1;
+                DAR <= SPR;
+                cs_reg <= 0;
+                we_reg <= 0;
+                addr_reg <= addr_reg;
+                bus_reg <= bus_reg;
+                counter <= counter;
+                op_1 <= op_1;
+                op_2 <= op_2;
+                DVR <= DVR;
+                //NS <= CLEAN;
+                prev_op <= prev_op;
             end
             SUBTRACT: begin
-                addr_reg = SPR + 1;
-                we_reg = 1;
-                NS = SUB_POP_1;            
+                addr_reg <= SPR + 1;
+                we_reg <= 1;   
+                cs_reg <= cs_reg;
+                bus_reg <= bus_reg;
+                DAR <= DAR;
+                SPR <= SPR;
+                counter <= counter;
+                op_1 <= op_1;
+                op_2 <= op_2;
+                DVR <= DVR;
+                prev_op <= prev_op;            
             end
             SUB_POP_1: begin
-                if (counter == 2) begin
-                    counter = 0;
-                    op_1 = data_in;
-                    SPR = SPR + 1;
-                    DAR = SPR + 1;
-                    addr_reg = DAR;
-                    NS = SUB_POP_2;
-                end else begin
+                    counter <= 0;
+                    op_1 <= data_in;
+                    SPR <= SPR + 1;
+                    DAR <= SPR + 2;
+                    addr_reg <= SPR + 2;
+                    cs_reg <= cs_reg;
+                    we_reg <= 1;
+                    op_2 <= op_2;
+                    DVR <= DVR;
+                    prev_op <= prev_op;
+                /*end else begin
                     counter = counter + 1;
+                    cs_reg = cs_reg;
+                    we_reg = we_reg;
+                    addr_reg = addr_reg;
+                    bus_reg = bus_reg;
+                    DAR = DAR;
+                    SPR = SPR;
+                    op_1 = op_1;
+                    op_2 = op_2;
+                    DVR = DVR;
                     NS = SUB_POP_1;
-                end                      
+                    prev_op = prev_op;
+                end   */                   
+            end
+            SUB_POP_MID: begin
+                cs_reg <= cs_reg;
+                we_reg <= we_reg;
+                addr_reg <= addr_reg;
+                bus_reg <= bus_reg;
+                DAR <= DAR;
+                SPR <= SPR;
+                counter <= counter;
+                op_1 <= op_1;
+                op_2 <= op_2;
+                DVR <= DVR;
             end
             SUB_POP_2: begin
-                if (counter == 2) begin
-                    counter = 0;
-                    op_2 = data_in;
-                    SPR = SPR + 1;
-                    DAR = SPR + 1;
-                    we_reg = 0;
-                    bus_reg = op_1 - op_2;
-                    DVR = op_1 - op_2;
-                    addr_reg = SPR;
-                    NS = SUB_STORE_1;
-                end else begin
+                //if (counter == 2) begin
+                    counter <= 0;
+                    op_2 <= data_in;
+                    SPR <= SPR + 1;
+                    DAR <= SPR + 2;
+                    we_reg <= 0;
+                    bus_reg <= data_in - op_1;
+                    DVR <= data_in - op_1;
+                    addr_reg <= SPR + 1;
+                    //NS <= ADD_STORE_1;
+                    prev_op <= prev_op;
+                /*end else begin
                     counter = counter + 1;
-                    NS = SUB_POP_2;               
-                end           
+                    cs_reg = cs_reg;
+                    we_reg = we_reg;
+                    addr_reg = addr_reg;
+                    bus_reg = bus_reg;
+                    DAR = DAR;
+                    SPR = SPR;
+                    op_1 = op_1;
+                    op_2 = op_2;
+                    DVR = DVR;
+                    NS = SUB_POP_2;
+                    prev_op = prev_op;               
+                end  */         
             end
             SUB_STORE_1: begin
-                if (counter == 2) begin
-                    counter = 0;
-                    cs_reg = 1;
-                    we_reg = 1;                                   
-                    NS = ADD_STORE_2;
+                if (counter >= 1) begin
+                    counter <= 0;
+                    cs_reg <= 1;
+                    we_reg <= 1;
+                    addr_reg <= addr_reg;
+                    bus_reg <= bus_reg;
+                    DAR <= DAR;
+                    SPR <= SPR;
+                    op_1 <= op_1;
+                    op_2 <= op_2;
+                    DVR <= DVR;                                   
+                    prev_op <= prev_op;
                 end else begin
-                    counter = counter + 1;
-                    NS = SUB_STORE_1;
+                    counter <= counter + 1;
+                    cs_reg <= cs_reg;
+                    we_reg <= we_reg;
+                    addr_reg <= addr_reg;
+                    bus_reg <= bus_reg;
+                    DAR <= DAR;
+                    SPR <= SPR;
+                    op_1 <= op_1;
+                    op_2 <= op_2;
+                    DVR <= DVR;
+                    prev_op <= prev_op;
                 end
             end
             CLEAR    : begin
-                SPR = 7'h7f;
-                DAR = 7'h00;
-                DVR = 8'h00;
-                NS = START;           
+                SPR <= 7'h7f;
+                DAR <= 7'h00;
+                DVR <= 8'h00;
+                cs_reg <= 1'b0;
+                we_reg <= 1'b0;
+                addr_reg <= 7'h00;
+                bus_reg <= 8'h00;
+                counter <= 2'b00;
+                op_1 <= 8'h00;
+                op_2 <= 8'h00;
+                prev_op <= prev_op;           
             end
             TOP      :begin
-                DAR = SPR + 1;
-                addr_reg = DAR;
-                we_reg = 1; 
-                NS = TOP_READ;           
+                DAR <= SPR + 1;
+                addr_reg <= SPR + 1;
+                we_reg <= 1;
+                cs_reg <= cs_reg;
+                bus_reg <= bus_reg;
+                SPR <= SPR;
+                counter <= counter;
+                op_1 <= op_1;
+                op_2 <= op_2;
+                DVR <= DVR; 
+                prev_op <= prev_op;           
             end
-            TOP_READ: begin
-                if (counter == 2) begin
-                    counter = 0;
-                    DVR = data_in;
-                    we_reg = 0;
-                    NS = START;
+            TOP_READ:
+                if (counter >= 1) begin
+                    counter <= 0;
+                    DVR <= data_in;
+                    we_reg <= 0;
+                    cs_reg <= cs_reg;
+                    addr_reg <= addr_reg;
+                    bus_reg <= bus_reg;
+                    DAR <= DAR;
+                    SPR <= SPR;
+                    op_1 <= op_1;
+                    op_2 <= op_2;
+                    prev_op <= prev_op;
                 end else begin
                     counter = counter + 1;
-                    NS = TOP_READ;
+                    cs_reg = cs_reg;
+                    we_reg = we_reg;
+                    addr_reg = addr_reg;
+                    bus_reg = bus_reg;
+                    DAR = DAR;
+                    SPR = SPR;
+                    op_1 = op_1;
+                    op_2 = op_2;
+                    DVR = DVR;
+                    prev_op = prev_op;
                 end          
-            end
             DEC      :begin
-                DAR = DAR - 1;
-                addr_reg = DAR;
-                we_reg = 1; 
-                NS = DEC_READ;           
+                DAR <= DAR - 1;
+                addr_reg <= DAR - 1;
+                we_reg <= 1; 
+                cs_reg <= cs_reg;
+                bus_reg <= bus_reg;
+                SPR <= SPR;
+                counter <= counter;
+                op_1 <= op_1;
+                op_2 <= op_2;
+                DVR <= DVR;
+                prev_op <= prev_op;           
             end
-            DEC_READ: begin
-                if (counter == 2) begin
-                    counter = 0;
-                    DVR = data_in;
-                    we_reg = 0;
-                    NS = START;
+            DEC_READ:
+                if (counter >= 1) begin
+                    counter <= 0;
+                    DVR <= data_in;
+                    we_reg <= 0;
+                    cs_reg <= cs_reg;
+                    addr_reg <= addr_reg;
+                    bus_reg <= bus_reg;
+                    DAR <= DAR;
+                    SPR <= SPR;
+                    op_1 <= op_1;
+                    op_2 <= op_2;
+                    prev_op <= prev_op;
                 end else begin
                     counter = counter + 1;
-                    NS = DEC_READ;
-                end           
-            end
+                    cs_reg = cs_reg;
+                    we_reg = we_reg;
+                    addr_reg = addr_reg;
+                    bus_reg = bus_reg;
+                    DAR = DAR;
+                    SPR = SPR;
+                    op_1 = op_1;
+                    op_2 = op_2;
+                    DVR = DVR;
+                    prev_op = prev_op;
+                end          
             INC      :begin
-                DAR = DAR + 1;
-                addr_reg = DAR;
-                we_reg = 1; 
-                NS = DEC_READ;  
-            
+                DAR <= DAR + 1;
+                addr_reg <= DAR + 1;
+                we_reg <= 1; 
+                cs_reg <= cs_reg;
+                bus_reg <= bus_reg;
+                SPR <= SPR;
+                counter <= counter;
+                op_1 <= op_1;
+                op_2 <= op_2;
+                DVR <= DVR;
+                prev_op <= prev_op;          
             end
-            INC_READ :begin
-                if (counter == 2) begin
-                    counter = 0;
-                    DVR = data_in;
-                    we_reg = 0;
-                    NS = START;
-                end else begin
+            INC_READ :
+                if (counter >= 1) begin
+                    counter <= 0;
+                    DVR <= data_in;
+                    we_reg <= 0;
+                    cs_reg <= cs_reg;
+                    addr_reg <= addr_reg;
+                    bus_reg <= bus_reg;
+                    DAR <= DAR;
+                    SPR <= SPR;
+                    op_1 <= op_1;
+                    op_2 <= op_2;
+                    prev_op <= prev_op;
+               end else begin
                     counter = counter + 1;
-                    NS = INC_READ;
-                end 
+                    cs_reg = cs_reg;
+                    we_reg = we_reg;
+                    addr_reg = addr_reg;
+                    bus_reg = bus_reg;
+                    DAR = DAR;
+                    SPR = SPR;
+                    op_1 = op_1;
+                    op_2 = op_2;
+                    DVR = DVR;
+                    prev_op = prev_op;
+                end
+            CLEAN    : begin
+            
+                cs_reg <= cs_reg;
+                we_reg <= we_reg;
+                addr_reg <= addr_reg;
+                bus_reg <= bus_reg;
+                DAR <= DAR;
+                SPR <= SPR;
+                counter <= counter;
+                op_1 <= op_1;
+                op_2 <= op_2;
+                DVR <= DVR;              
+                /*if (prev_op != next_operation) 
+                    NS <= START;
+                else 
+                    NS <= CLEAN;  */                               
+            end    
+            WAIT_ONE_CYCLE: begin
+                cs_reg <= cs_reg;
+                we_reg <= we_reg;
+                addr_reg <= addr_reg;
+                bus_reg <= bus_reg;
+                DAR <= DAR;
+                SPR <= SPR;
+                counter <= counter;
+                op_1 <= op_1;
+                op_2 <= op_2;
+                DVR <= DVR;
             end
-            CLEAN    : NS = START;       
-            default: NS = START;
+            default: begin
+                cs_reg <= cs_reg;
+                we_reg <= we_reg;
+                addr_reg <= addr_reg;
+                bus_reg <= bus_reg;
+                DAR <= DAR;
+                SPR <= SPR;
+                counter <= counter;
+                op_1 <= op_1;
+                op_2 <= op_2;
+                DVR <= DVR;
+                //NS <= START;
+            end
         endcase 
     end
      

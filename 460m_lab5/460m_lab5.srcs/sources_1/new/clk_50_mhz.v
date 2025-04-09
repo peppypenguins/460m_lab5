@@ -1,21 +1,29 @@
+
 `timescale 1ns / 1ps
 
 module clk_50_mhz(
-    input clk,
-    output reg out_clk
-    );
-    
+input clk,
+input reset,
+output out_clk
+    );    
+    reg [27:0] COUNT;
+    reg tmp;
     initial begin
-        out_clk = 1'b0;
+        COUNT = 0;
+        tmp = 0;
     end
     
+    assign out_clk = tmp;
     
-    always @ (*) begin
-        if (clk == 1'b1)
-            out_clk = ~out_clk;
+    always @(posedge clk) begin
+        if (reset || COUNT == 28'd1) begin
+            COUNT <= 0;
+            tmp <= ~tmp;
+            end
         else 
-            out_clk = out_clk;
+            COUNT <= COUNT + 1;      
     end
     
     
 endmodule
+   
